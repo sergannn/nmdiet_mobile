@@ -61,8 +61,15 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+  fonts:
+    - family: TildaSans
+      fonts:
+        - asset: assets/fonts/TildaSans-VF.ttf
   assets:
     - assets/brand/
+    - assets/brand/site/
+    - assets/content/
+    - assets/fonts/OFL.txt
     - assets/products/
 
   # To add assets to your application, add an assets section, like this:

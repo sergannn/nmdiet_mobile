@@ -55,7 +55,7 @@ class InfoScreen extends StatelessWidget {
         const SizedBox(height: 24),
         const Text(
           'БАД. Не является лекарственным средством.',
-          style: TextStyle(fontSize: 12),
+          style: Brand.caption,
         ),
       ],
     ),

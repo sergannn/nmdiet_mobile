@@ -69,8 +69,9 @@ class ProductTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Container(
     decoration: BoxDecoration(
+      color: AppColors.catalog,
       border: Border.all(color: AppColors.line),
-      borderRadius: BorderRadius.circular(8),
+      borderRadius: BorderRadius.circular(Brand.tileRadius),
     ),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -86,7 +87,10 @@ class ProductTile extends StatelessWidget {
                     onTap: onOpen,
                     child: Padding(
                       padding: const EdgeInsets.all(16),
-                      child: ProductImage(product),
+                      child: ColoredBox(
+                        color: AppColors.white,
+                        child: ProductImage(product),
+                      ),
                     ),
                   ),
                 ),
@@ -122,11 +126,9 @@ class ProductTile extends StatelessWidget {
                       product.name,
                       maxLines: 3,
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        fontSize: 14,
-                        height: 1.4,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.ink,
+                      style: Brand.bodyInk.copyWith(
+                        fontWeight: FontWeight.w500,
+                        height: 1.2,
                       ),
                     ),
                   ),
@@ -136,36 +138,35 @@ class ProductTile extends StatelessWidget {
                 product.capsules,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: const TextStyle(fontSize: 12, color: AppColors.muted),
+                style: Brand.small,
               ),
               const SizedBox(height: 8),
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      money(product.priceMinor),
-                      style: const TextStyle(
-                        fontSize: 17,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.ink,
+              Text(money(product.priceMinor), style: Brand.compactPrice),
+              const SizedBox(height: 16),
+              SizedBox(
+                width: double.infinity,
+                child: Tooltip(
+                  message: 'В корзину',
+                  child: FilledButton(
+                    onPressed: onAdd,
+                    style: FilledButton.styleFrom(
+                      minimumSize: const Size(0, 42),
+                      padding: const EdgeInsets.symmetric(horizontal: 6),
+                      textStyle: Brand.small,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(Brand.tileRadius),
                       ),
                     ),
+                    child: const Text('В корзину'),
                   ),
-                  SizedBox(
-                    width: 40,
-                    height: 40,
-                    child: IconButton.filled(
-                      tooltip: 'В корзину',
-                      onPressed: onAdd,
-                      style: IconButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
-                      icon: const Icon(Icons.add, size: 21),
-                    ),
-                  ),
-                ],
+                ),
+              ),
+              SizedBox(
+                width: double.infinity,
+                child: TextButton(
+                  onPressed: onOpen,
+                  child: const Text('Подробнее'),
+                ),
               ),
             ],
           ),
@@ -220,11 +221,7 @@ class Notice extends StatelessWidget {
     padding: const EdgeInsets.symmetric(vertical: 12),
     child: Text(
       text,
-      style: TextStyle(
-        color: Theme.of(context).colorScheme.error,
-        fontSize: 14,
-        height: 1.5,
-      ),
+      style: Brand.small.copyWith(color: Theme.of(context).colorScheme.error),
     ),
   );
 }
@@ -240,21 +237,11 @@ class PriceRow extends StatelessWidget {
     child: Row(
       children: [
         Expanded(
-          child: Text(
-            label,
-            style: TextStyle(
-              color: AppColors.ink,
-              fontSize: emphasis ? 19 : 14,
-            ),
-          ),
+          child: Text(label, style: emphasis ? Brand.cardTitle : Brand.small),
         ),
         Text(
           money(amount),
-          style: TextStyle(
-            color: AppColors.ink,
-            fontSize: emphasis ? 22 : 15,
-            fontWeight: emphasis ? FontWeight.w600 : FontWeight.w500,
-          ),
+          style: emphasis ? Brand.compactPrice : Brand.bodyInk,
         ),
       ],
     ),

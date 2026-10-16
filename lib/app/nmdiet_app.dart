@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../features/shop/presentation/home_screen.dart';
 import '../features/shop/presentation/catalog_screen.dart';
 import '../features/shop/presentation/cart_screen.dart';
-import '../features/shop/presentation/info_screen.dart';
+import '../features/shop/presentation/brand_widgets.dart';
 import 'app_container.dart';
 import 'theme.dart';
 
@@ -39,30 +39,17 @@ class _ShellState extends State<_Shell> {
         app.checkout,
       ]),
       builder: (_, child) => Scaffold(
-        appBar: AppBar(
-          title: Text(
-            ['NMDIET', 'Каталог', 'Избранное', 'Корзина'][index],
-            style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 23),
-          ),
-          actions: [
-            IconButton(
-              tooltip: 'О бренде и поддержка',
-              icon: const Icon(Icons.info_outline),
-              onPressed: () => Navigator.push(
-                context,
-                MaterialPageRoute<void>(
-                  builder: (_) => InfoScreen(container: app),
-                ),
-              ),
-            ),
-          ],
+        appBar: BrandHeader(
+          container: app,
+          openCatalog: openCatalog,
+          openCart: () => setState(() => index = 3),
         ),
         body: SafeArea(
           top: false,
           child: Align(
             alignment: Alignment.topCenter,
             child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 900),
+              constraints: const BoxConstraints(maxWidth: Brand.pageWidth),
               child: IndexedStack(
                 index: index,
                 children: [

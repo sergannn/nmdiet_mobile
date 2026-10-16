@@ -1,0 +1,6 @@
+{
+  "name": "nmdiet-storefront-import",
+  "private": true,
+  "description": "Optional editorial snapshot refresh; not needed to build the Flutter app",
+  "dependencies": {"cheerio": "1.1.2"}
+}

@@ -12,6 +12,14 @@ Flutter application for iOS and Android. Native Flutter UI, not an embedded webs
 
 Presentation and data depend on domain contracts. HTTP, storage and navigation can be replaced in tests. There is no global repository singleton or generated service locator.
 
+## Design Configuration
+
+Edit `lib/app/brand_config.dart` to change the palette (`AppColors`), font family, all text sizes/styles, shared layout dimensions, corner radii and artwork paths (`Brand`). `lib/app/theme.dart` applies those tokens to Material controls; it is not a second palette. Screens must not introduce their own literal colors or font sizes; a regression test enforces this rule. Changes require rebuilding the app; the Pages workflow does that automatically after a push.
+
+The interface uses the website's original TildaSans variable font (SIL OFL, bundled license), logo and artwork. Main layouts are native Flutter widgets. The bottom app navigation is deliberately retained; website informational links still open in the browser. The web preview is not a claim of pixel-identical Android rendering.
+
+Detailed product editorial content is a bundled snapshot of the storefront in `assets/content/product_stories.json`. Prices, publication state, gallery and reviews continue to come from the live API. To refresh editorial sections/documents, run `npm ci --prefix tool`, then `STOREFRONT_REFERENCE=/path/to/storefront/reference node tool/import_storefront.cjs`, review the generated diff and rebuild. Node is only needed for this optional import, not for the app or Flutter build.
+
 ## Run
 
 ```sh

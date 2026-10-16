@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../app/app_container.dart';
+import '../../../app/theme.dart';
 import '../domain/models.dart';
 import 'view_models.dart';
 import 'widgets.dart';
@@ -147,7 +148,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 onChanged: (value) => vm.acceptConsent(value ?? false),
                 title: const Text(
                   'Согласен с условиями заказа и обработкой персональных данных',
-                  style: TextStyle(fontSize: 13),
+                  style: Brand.small,
                 ),
               ),
               TextButton(

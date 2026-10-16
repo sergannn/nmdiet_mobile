@@ -48,7 +48,14 @@ class CatalogScreen extends StatelessWidget {
                         (e) => Padding(
                           padding: const EdgeInsets.only(right: 8),
                           child: ChoiceChip(
-                            label: Text(e.value),
+                            label: Text(
+                              e.value,
+                              style: Brand.small.copyWith(
+                                color: vm.category == e.key
+                                    ? AppColors.white
+                                    : AppColors.ink,
+                              ),
+                            ),
                             selected: vm.category == e.key,
                             showCheckmark: false,
                             onSelected: (_) => vm.selectCategory(e.key),
@@ -67,10 +74,7 @@ class CatalogScreen extends StatelessWidget {
                 const Icon(Icons.cloud_off_outlined, size: 16),
                 const SizedBox(width: 8),
                 const Expanded(
-                  child: Text(
-                    'Сохранённый каталог',
-                    style: TextStyle(fontSize: 12),
-                  ),
+                  child: Text('Сохранённый каталог', style: Brand.caption),
                 ),
                 IconButton(
                   tooltip: 'Обновить каталог',
@@ -108,11 +112,11 @@ class CatalogScreen extends StatelessWidget {
               : RefreshIndicator(
                   onRefresh: () => vm.load(refresh: true),
                   child: GridView.builder(
-                    padding: const EdgeInsets.all(20),
+                    padding: const EdgeInsets.all(Brand.gutter),
                     gridDelegate:
                         const SliverGridDelegateWithMaxCrossAxisExtent(
                           maxCrossAxisExtent: 240,
-                          mainAxisExtent: 294,
+                          mainAxisExtent: Brand.tileHeight,
                           crossAxisSpacing: 12,
                           mainAxisSpacing: 16,
                         ),

@@ -1,4 +1,7 @@
 import 'dart:async';
+import 'package:flutter/services.dart';
+import '../features/shop/data/bundled_product_stories.dart';
+import '../features/shop/domain/product_story.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import '../core/api_client.dart';
@@ -17,6 +20,7 @@ class AppContainer {
     required this.checkout,
     required this.products,
     required this.links,
+    this.stories = const EmptyProductStories(),
   });
   final CatalogViewModel catalog;
   final CartViewModel cart;
@@ -24,6 +28,7 @@ class AppContainer {
   final CheckoutViewModel checkout;
   final ProductRepository products;
   final ExternalLinks links;
+  final ProductStoryRepository stories;
 
   factory AppContainer.production() {
     const apiUrl = String.fromEnvironment(
@@ -41,6 +46,7 @@ class AppContainer {
       checkout: CheckoutViewModel(RemoteCheckoutRepository(api, store), cart),
       products: products,
       links: ExternalLinks(),
+      stories: BundledProductStories(rootBundle),
     );
   }
 
