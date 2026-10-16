@@ -17,6 +17,7 @@ abstract final class Brand {
   static const fieldRadius = 6.0;
   static const tileHeight = 470.0;
   static const logo = 'assets/brand/site/logo.webp';
+  static const bag = 'assets/brand/site/bag.png';
   static const heroPhoto = 'assets/brand/site/products.webp';
   static const heroSurface = 'assets/brand/site/hero-surface.png';
   static const founderPhoto = 'assets/brand/site/founder.webp';
@@ -152,4 +153,5 @@ abstract final class AppColors {
   static const transparent = Color(0x00000000);
   static const error = Color(0xFF9B3326);
   static const errorSurface = Color(0xFFFCEEEA);
+  static const footer = Color(0xFFF6F9FB);
 }

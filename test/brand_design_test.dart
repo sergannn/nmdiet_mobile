@@ -22,6 +22,16 @@ void main() {
   test('visual constants are centralized and the site font is used', () {
     expect(appTheme().textTheme.bodyMedium!.fontFamily, Brand.fontFamily);
     expect(appTheme().colorScheme.primary, AppColors.navy);
+    for (final asset in [
+      Brand.logo,
+      Brand.bag,
+      Brand.heroPhoto,
+      Brand.heroSurface,
+      for (final name in ['goldapple', 'itab', 'ozon', 'wb', 'ym'])
+        'assets/brand/site/market-$name.png',
+    ]) {
+      expect(File(asset).existsSync(), isTrue, reason: asset);
+    }
     for (final f
         in Directory('lib')
             .listSync(recursive: true)

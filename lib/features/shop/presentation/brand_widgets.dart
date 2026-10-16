@@ -73,7 +73,7 @@ class BrandHeader extends StatelessWidget implements PreferredSizeWidget {
                         height: 48,
                         child: Row(
                           children: [
-                            const Icon(Icons.shopping_bag_outlined, size: 23),
+                            Image.asset(Brand.bag, width: 22, height: 22),
                             const SizedBox(width: 5),
                             Text(
                               '${container.cart.count}',
@@ -127,56 +127,58 @@ class BrandHeader extends StatelessWidget implements PreferredSizeWidget {
     isScrollControlled: true,
     backgroundColor: AppColors.white,
     builder: (sheet) => SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.all(Brand.gutter),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            ListTile(
-              title: const Text('Выбрать комплекс'),
-              leading: const Icon(Icons.grid_view_outlined),
-              onTap: () {
-                Navigator.pop(sheet);
-                openCatalog();
-              },
-            ),
-            ListTile(
-              title: const Text('Про NMDIET'),
-              leading: const Icon(Icons.info_outline),
-              onTap: () {
-                Navigator.pop(sheet);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute<void>(
-                    builder: (_) => InfoScreen(container: container),
-                  ),
-                );
-              },
-            ),
-            ListTile(
-              title: const Text('Корзина'),
-              leading: const Icon(Icons.shopping_bag_outlined),
-              onTap: () {
-                Navigator.pop(sheet);
-                openCart();
-              },
-            ),
-            for (final link in const [
-              ('Доставка и оплата', 'details', Icons.local_shipping_outlined),
-              ('Контакты', 'contacts', Icons.chat_bubble_outline),
-              ('Библиотека', 'library', Icons.menu_book_outlined),
-              ('Юридические документы', 'law', Icons.description_outlined),
-            ])
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(Brand.gutter),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
               ListTile(
-                title: Text(link.$1),
-                leading: Icon(link.$3),
-                trailing: const Icon(Icons.open_in_new, size: 16),
+                title: const Text('Выбрать комплекс'),
+                leading: const Icon(Icons.grid_view_outlined),
                 onTap: () {
                   Navigator.pop(sheet);
-                  openBrandLink(context, container, link.$2);
+                  openCatalog();
                 },
               ),
-          ],
+              ListTile(
+                title: const Text('Про NMDIET'),
+                leading: const Icon(Icons.info_outline),
+                onTap: () {
+                  Navigator.pop(sheet);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute<void>(
+                      builder: (_) => InfoScreen(container: container),
+                    ),
+                  );
+                },
+              ),
+              ListTile(
+                title: const Text('Корзина'),
+                leading: const Icon(Icons.shopping_bag_outlined),
+                onTap: () {
+                  Navigator.pop(sheet);
+                  openCart();
+                },
+              ),
+              for (final link in const [
+                ('Доставка и оплата', 'details', Icons.local_shipping_outlined),
+                ('Контакты', 'contacts', Icons.chat_bubble_outline),
+                ('Библиотека', 'library', Icons.menu_book_outlined),
+                ('Юридические документы', 'law', Icons.description_outlined),
+              ])
+                ListTile(
+                  title: Text(link.$1),
+                  leading: Icon(link.$3),
+                  trailing: const Icon(Icons.open_in_new, size: 16),
+                  onTap: () {
+                    Navigator.pop(sheet);
+                    openBrandLink(context, container, link.$2);
+                  },
+                ),
+            ],
+          ),
         ),
       ),
     ),
@@ -286,48 +288,183 @@ class BrandFooter extends StatelessWidget {
   final AppContainer container;
   final VoidCallback openCatalog;
   @override
-  Widget build(BuildContext context) => Container(
-    color: AppColors.mist,
-    padding: const EdgeInsets.symmetric(horizontal: Brand.gutter, vertical: 40),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text(
-          'NMDIET представлен на ведущих маркетплейсах',
-          style: Brand.sectionTitle,
+  Widget build(BuildContext context) => Column(
+    crossAxisAlignment: CrossAxisAlignment.stretch,
+    children: [
+      BrandSection(
+        eyebrow: 'Где ещё купить NMDIET',
+        title: 'NMDIET представлен на ведущих маркетплейсах',
+        children: [
+          LayoutBuilder(
+            builder: (_, constraints) => Wrap(
+              spacing: 12,
+              runSpacing: 12,
+              children: [
+                for (final m in const [
+                  (
+                    'goldapple',
+                    'Золотое Яблоко',
+                    'https://goldapple.ru/brands/nmdiet',
+                  ),
+                  ('itab', 'Айтаб', 'https://itab.pro/brands/nmdiet-301/'),
+                  ('ozon', 'Ozon', 'https://ozon.ru/s/nmdiet'),
+                  (
+                    'wb',
+                    'Wildberries',
+                    'https://www.wildberries.ru/seller/1333935',
+                  ),
+                  ('ym', 'Яндекс Маркет', 'https://market.yandex.ru/cc/93dG7C'),
+                ])
+                  Semantics(
+                    label: 'NMDIET на ${m.$2}',
+                    button: true,
+                    child: InkWell(
+                      onTap: () => _external(context, m.$3),
+                      child: SizedBox(
+                        width: (constraints.maxWidth - 12) / 2,
+                        height: 72,
+                        child: Image.asset(
+                          'assets/brand/site/market-${m.$1}.png',
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+                    ),
+                  ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 24),
+          const Text(
+            'Обратите внимание: наша оригинальная продукция представлена только по ссылкам из логотипов выше. Мы не сотрудничаем с другими продавцами на маркетплейсах. Остерегайтесь подделок!',
+            style: Brand.small,
+          ),
+        ],
+      ),
+      Container(
+        color: AppColors.footer,
+        padding: const EdgeInsets.symmetric(
+          horizontal: Brand.gutter,
+          vertical: 40,
         ),
-        const SizedBox(height: 24),
-        const Wrap(
-          spacing: 24,
-          runSpacing: 16,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('OZON', style: Brand.cardTitle),
-            Text('Wildberries', style: Brand.cardTitle),
-            Text('Яндекс Маркет', style: Brand.cardTitle),
+            const Text('NMDIET', style: Brand.heroTitle),
+            const SizedBox(height: 16),
+            const Text(
+              'Собственные формулы.\nЛичный подход к качеству.',
+              style: Brand.cardTitle,
+            ),
+            const SizedBox(height: 28),
+            const Text('Подписаться', style: Brand.eyebrow),
+            const SizedBox(height: 12),
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: [
+                for (final x in const [
+                  ('VK', 'https://vk.ru/nmdiet'),
+                  ('MAX', 'https://max.ru/channel_NMDIET'),
+                  ('Telegram', 'https://t.me/nmdiet_russia'),
+                ])
+                  OutlinedButton(
+                    onPressed: () => _external(context, x.$2),
+                    child: Text(x.$1),
+                  ),
+              ],
+            ),
+            const SizedBox(height: 28),
+            const Text('Связаться с нами', style: Brand.eyebrow),
+            const SizedBox(height: 12),
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: [
+                for (final x in const [
+                  ('Email', 'mailto:nmd_spb@bk.ru'),
+                  (
+                    'Поддержка в MAX',
+                    'https://max.ru/u/f9LHodD0cOKHp1VW5Q_uNwI4WLMkXaHin9S8Yx3fz9iTcs9SkfgjVsaYczM',
+                  ),
+                  ('Поддержка в Telegram', 'https://t.me/nmdiet_ask'),
+                ])
+                  OutlinedButton(
+                    onPressed: () => _external(context, x.$2),
+                    child: Text(x.$1),
+                  ),
+              ],
+            ),
+            const SizedBox(height: 32),
+            const Text('Покупателям', style: Brand.cardTitle),
+            TextButton(onPressed: openCatalog, child: const Text('Каталог')),
+            for (final x in const [
+              ('Доставка и оплата', 'details'),
+              ('Контакты', 'contacts'),
+              ('Об основателе', 'nmdiet'),
+              ('Где купить', 'contacts'),
+            ])
+              TextButton(
+                onPressed: () => openBrandLink(context, container, x.$2),
+                child: Text(x.$1),
+              ),
+            const SizedBox(height: 24),
+            const Text('Правовая информация', style: Brand.cardTitle),
+            for (final x in const [
+              ('Публичная оферта', 'law#law-offer'),
+              ('Политика конфиденциальности', 'law#law-privacy'),
+              ('Согласие на обработку персональных данных', 'law#law-personal'),
+              ('Согласие на рассылку', 'law#law-advertising'),
+              ('Все юридические документы', 'law'),
+            ])
+              TextButton(
+                onPressed: () => openBrandLink(context, container, x.$2),
+                child: Text(x.$1),
+              ),
+            const SizedBox(height: 28),
+            const Divider(),
+            const SizedBox(height: 24),
+            const Text(
+              'БАД. НЕ ЯВЛЯЕТСЯ ЛЕКАРСТВЕННЫМ СРЕДСТВОМ.',
+              style: Brand.small,
+            ),
+            const SizedBox(height: 24),
+            const Text('Изготовитель', style: Brand.eyebrow),
+            const SizedBox(height: 12),
+            const Text(
+              'ООО «ТПК «САМОРАЗВИТИЕ», 195269, Россия, г. Санкт-Петербург, ул. Учительская, д. 23, литер А, помещение 228-229.',
+              style: Brand.small,
+            ),
+            const SizedBox(height: 24),
+            const Text('Продавец', style: Brand.eyebrow),
+            const SizedBox(height: 12),
+            const Text(
+              'ИП Щеглова Наталья Юрьевна\nИНН 780436111943\nОГРНИП 323784700227571\n194021, Россия, Санкт-Петербург, Политехническая 17/3',
+              style: Brand.small,
+            ),
+            const SizedBox(height: 12),
+            TextButton(
+              onPressed: () => _external(context, 'tel:+79311194959'),
+              child: const Text('+7 931 119-49-59'),
+            ),
+            const SizedBox(height: 32),
+            const Text(
+              '© 2022–2026 NMDIET\nВсе права защищены',
+              style: Brand.caption,
+            ),
           ],
         ),
-        const SizedBox(height: 32),
-        Image.asset(Brand.logo, width: 120, height: 48),
-        const SizedBox(height: 12),
-        TextButton(
-          onPressed: openCatalog,
-          child: const Text('Выбрать комплекс'),
-        ),
-        for (final x in const [
-          ('Доставка и оплата', 'details'),
-          ('Контакты', 'contacts'),
-          ('Правовая информация', 'law'),
-        ])
-          TextButton(
-            onPressed: () => openBrandLink(context, container, x.$2),
-            child: Text(x.$1),
-          ),
-        const SizedBox(height: 18),
-        const Text(
-          'БАД. Не является лекарственным средством.',
-          style: Brand.caption,
-        ),
-      ],
-    ),
+      ),
+    ],
   );
+  Future<void> _external(BuildContext context, String url) async {
+    try {
+      await container.links.open(url);
+    } catch (e) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(userError(e))));
+      }
+    }
+  }
 }
