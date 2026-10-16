@@ -52,6 +52,7 @@ void main() {
         expect(menu.right, lessThan(logo.left));
         expect(menu.center.dy, closeTo(logo.center.dy, .01));
         expect(find.byIcon(Icons.arrow_back), findsNothing);
+        expect(find.byIcon(Icons.star), findsOneWidget);
         expect(tester.takeException(), isNull);
         await tester.tap(find.text('МЕНЮ'));
         await tester.pumpAndSettle();

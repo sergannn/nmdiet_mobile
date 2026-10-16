@@ -86,7 +86,15 @@ class BrandHeader extends StatelessWidget implements PreferredSizeWidget {
                       TextSpan(
                         style: Brand.trustProof,
                         children: [
-                          TextSpan(text: '★ 4,9–5,0', style: Brand.trustStrong),
+                          WidgetSpan(
+                            alignment: PlaceholderAlignment.middle,
+                            child: Icon(
+                              Icons.star,
+                              size: Brand.trustStarSize,
+                              color: AppColors.headerText,
+                            ),
+                          ),
+                          TextSpan(text: ' 4,9–5,0', style: Brand.trustStrong),
                           TextSpan(text: '   ·   '),
                           TextSpan(
                             text: '3 500+ отзывов',

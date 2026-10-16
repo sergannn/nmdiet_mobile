@@ -12,6 +12,7 @@ abstract final class Brand {
   static const logoHeight = 48.0;
   static const trustHeight = 68.0;
   static const trustGap = 3.0;
+  static const trustStarSize = 16.0;
   static const heroPhotoHeight = 245.0;
   static const productPhotoHeight = 388.0;
   static const controlHeight = 54.0;
