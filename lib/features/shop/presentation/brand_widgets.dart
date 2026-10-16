@@ -29,59 +29,31 @@ class BrandHeader extends StatelessWidget implements PreferredSizeWidget {
           SizedBox(
             height: Brand.headerHeight,
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
+              padding: const EdgeInsets.symmetric(
+                horizontal: Brand.headerGutter,
+              ),
               child: Row(
+                key: const ValueKey('brand-header-row'),
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  if (back)
-                    IconButton(
-                      tooltip: 'Назад',
-                      onPressed: () => Navigator.pop(context),
-                      icon: const Icon(Icons.arrow_back),
+                  TextButton(
+                    key: const ValueKey('brand-header-menu'),
+                    onPressed: () => _menu(context),
+                    style: TextButton.styleFrom(
                       padding: EdgeInsets.zero,
-                      constraints: const BoxConstraints(
-                        minWidth: 48,
-                        minHeight: 48,
-                      ),
-                    )
-                  else
-                    TextButton(
-                      onPressed: () => _menu(context),
-                      style: TextButton.styleFrom(
-                        padding: EdgeInsets.zero,
-                        minimumSize: const Size(52, 48),
-                      ),
-                      child: const Text('МЕНЮ', style: Brand.trustProof),
+                      minimumSize: const Size(52, 48),
                     ),
-                  const SizedBox(width: 12),
+                    child: const Text('МЕНЮ', style: Brand.headerMenu),
+                  ),
                   Semantics(
+                    key: const ValueKey('brand-header-logo'),
                     label: 'NMDIET',
                     image: true,
                     child: Image.asset(
                       Brand.logo,
-                      width: 120,
-                      height: 48,
+                      width: Brand.logoWidth,
+                      height: Brand.logoHeight,
                       fit: BoxFit.contain,
-                    ),
-                  ),
-                  const Spacer(),
-                  Semantics(
-                    button: true,
-                    label: 'Корзина',
-                    child: InkWell(
-                      onTap: openCart,
-                      child: SizedBox(
-                        height: 48,
-                        child: Row(
-                          children: [
-                            Image.asset(Brand.bag, width: 22, height: 22),
-                            const SizedBox(width: 5),
-                            Text(
-                              '${container.cart.count}',
-                              style: Brand.caption,
-                            ),
-                          ],
-                        ),
-                      ),
                     ),
                   ),
                 ],
@@ -99,7 +71,7 @@ class BrandHeader extends StatelessWidget implements PreferredSizeWidget {
               ),
             ),
             child: const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 12),
+              padding: EdgeInsets.symmetric(horizontal: 10),
               child: FittedBox(
                 fit: BoxFit.scaleDown,
                 child: Column(
@@ -109,9 +81,20 @@ class BrandHeader extends StatelessWidget implements PreferredSizeWidget {
                       'Экспертный российский бренд',
                       style: Brand.trustTitle,
                     ),
-                    Text(
-                      '★ 4,9–5,0   ·   3 500+ отзывов на маркетплейсах',
-                      style: Brand.trustProof,
+                    SizedBox(height: Brand.trustGap),
+                    Text.rich(
+                      TextSpan(
+                        style: Brand.trustProof,
+                        children: [
+                          TextSpan(text: '★ 4,9–5,0', style: Brand.trustStrong),
+                          TextSpan(text: '   ·   '),
+                          TextSpan(
+                            text: '3 500+ отзывов',
+                            style: Brand.trustStrong,
+                          ),
+                          TextSpan(text: ' на маркетплейсах'),
+                        ],
+                      ),
                     ),
                   ],
                 ),
@@ -133,6 +116,15 @@ class BrandHeader extends StatelessWidget implements PreferredSizeWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
+              if (back)
+                ListTile(
+                  title: const Text('Назад'),
+                  leading: const Icon(Icons.arrow_back),
+                  onTap: () {
+                    Navigator.pop(sheet);
+                    Navigator.maybePop(context);
+                  },
+                ),
               ListTile(
                 title: const Text('Выбрать комплекс'),
                 leading: const Icon(Icons.grid_view_outlined),

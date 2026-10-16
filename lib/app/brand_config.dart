@@ -7,7 +7,11 @@ abstract final class Brand {
   static const gutter = 18.0;
   static const sectionGap = 64.0;
   static const headerHeight = 82.0;
+  static const headerGutter = 20.0;
+  static const logoWidth = 120.0;
+  static const logoHeight = 48.0;
   static const trustHeight = 68.0;
+  static const trustGap = 3.0;
   static const heroPhotoHeight = 245.0;
   static const productPhotoHeight = 388.0;
   static const controlHeight = 54.0;
@@ -97,13 +101,23 @@ abstract final class Brand {
   );
   static const trustTitle = TextStyle(
     fontSize: 15,
-    height: 1.4,
-    color: AppColors.ink,
+    height: 1.35,
+    fontWeight: FontWeight.w500,
+    color: AppColors.headerText,
     letterSpacing: 0,
   );
   static const trustProof = TextStyle(
     fontSize: 14,
-    height: 1.5,
+    height: 1.35,
+    fontWeight: FontWeight.w400,
+    color: AppColors.headerText,
+    letterSpacing: 0,
+  );
+  static const trustStrong = TextStyle(fontWeight: FontWeight.w600);
+  static const headerMenu = TextStyle(
+    fontSize: 15,
+    height: 1,
+    fontWeight: FontWeight.w500,
     color: AppColors.ink,
     letterSpacing: 0,
   );
@@ -136,6 +150,7 @@ abstract final class Brand {
 }
 
 abstract final class AppColors {
+  static const headerText = Color(0xFF155483);
   static const ink = Color(0xFF194C80);
   static const navy = Color(0xFF0A2F67);
   static const blue = Color(0xFF2182C5);
